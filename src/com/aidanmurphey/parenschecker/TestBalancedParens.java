@@ -5,6 +5,8 @@
  */
 package com.aidanmurphey.parenschecker;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -15,18 +17,35 @@ public class TestBalancedParens {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String input;
+        String fileName = null;
+        BufferedReader br = null;
+        boolean openedFile = false;
 
         do {
-            System.out.print("Enter an infix expression (\";\" to stop): ");
-            input = scanner.nextLine();
+            if (fileName != null)
+                System.out.println("Unable to open file! Please try again...\n");
 
-            if (!input.equals(";")) {
-                System.out.println(ParensChecker.validateString(input));
-            }
-        } while(!input.equals(";"));
+            System.out.print("Enter the name of the input file: ");
+            fileName = scanner.nextLine();
 
-        System.out.println("Closing program...");
+            try {
+                br = new BufferedReader(new FileReader(fileName));
+                openedFile = true;
+            } catch (Exception e) {}
+
+        } while(!openedFile);
+
+        br.lines().forEach(line -> {
+            System.out.println("Testing expression: \"" + line + "\"");
+            System.out.println(ParensChecker.validateString(line));
+            System.out.println("\n----------------------------------\n");
+        });
+
+        try {
+            br.close();
+        } catch (Exception e) {}
+
+        System.out.println("Reached end of file, ending program...");
     }
     
 }
