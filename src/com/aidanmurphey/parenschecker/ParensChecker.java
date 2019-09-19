@@ -35,7 +35,6 @@ public class ParensChecker {
 
         if (!stack.isEmpty())
             return "Invalid expression! Missing right brace: " + getCorrespondingChar(stack.peek());
-
         return "Valid expression!";
     }
 

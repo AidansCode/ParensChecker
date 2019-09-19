@@ -16,6 +16,25 @@ import java.util.Scanner;
 public class TestBalancedParens {
 
     public static void main(String[] args) {
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader br = getBufferedReader();
+
+        try {
+            for (int character = br.read(); character != -1; character = br.read()) {
+                stringBuilder.append((char) character);
+            }
+        } catch(Exception e) {}
+
+        try {
+            br.close();
+        } catch (Exception e) {}
+
+        System.out.println("Testing input from file...");
+        System.out.println(ParensChecker.validateString(stringBuilder.toString()));
+        System.out.println("Finished parsing file, ending program...");
+    }
+
+    public static BufferedReader getBufferedReader() {
         Scanner scanner = new Scanner(System.in);
         String fileName = null;
         BufferedReader br = null;
@@ -35,17 +54,7 @@ public class TestBalancedParens {
 
         } while(!openedFile);
 
-        br.lines().forEach(line -> {
-            System.out.println("Testing expression: \"" + line + "\"");
-            System.out.println(ParensChecker.validateString(line));
-            System.out.println("\n----------------------------------\n");
-        });
-
-        try {
-            br.close();
-        } catch (Exception e) {}
-
-        System.out.println("Reached end of file, ending program...");
+        return br;
     }
     
 }
